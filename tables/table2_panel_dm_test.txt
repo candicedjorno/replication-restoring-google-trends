@@ -1,0 +1,30 @@
+Horizon | Method             | ARIMAX  | SARIMAX | ARGO     | LightGBM | AdaBoost
+---------------------------------------------------------------------------------
+0       | Detrending         | *       | -       | *        | *        |         
+        | Denoising          | *       | -       | *        | *        |         
+        | Clustering         |         |         | *        | *        |         
+        | Topics             | -       |         | *        |          |         
+        | Non-preprocessed   | -       | -       | -        | *        |         
+---------------------------------------------------------------------------------
+1       | Detrending         | *       |         | *        |          | *       
+        | Denoising          | *       |         | *        |          | *       
+        | Clustering         |         |         | *        |          | *       
+        | Topics             | -       |         | *        |          | *       
+        | Non-preprocessed   | -       |         |          |          | *       
+---------------------------------------------------------------------------------
+2       | Detrending         | *       |         | *        |          | *       
+        | Denoising          | *       | *       | *        |          | *       
+        | Clustering         |         |         | *        |          | *       
+        | Topics             | -       |         | *        |          | *       
+        | Non-preprocessed   | -       |         |          |          |         
+---------------------------------------------------------------------------------
+3       | Detrending         | *       |         | *        |          |         
+        | Denoising          | *       | *       | *        |          | *       
+        | Clustering         |         |         | *        |          |         
+        | Topics             | -       | -       |          |          | *       
+        | Non-preprocessed   | -       |         |          |          |         
+
+Notes:
+*  : p < 0.05  (model better than baseline)
+-  : p > 0.95  (model worse than baseline)
+blank: not significant at 0.05

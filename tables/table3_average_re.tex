@@ -1,0 +1,37 @@
+\begin{table}[H]
+\centering
+\resizebox{0.8\textwidth}{!}{%
+\begin{tabular}{l l l c c c c c}
+\toprule
+{Horizon} & {Season} & {Method} & ARIMAX & SARIMAX & ARGO & LightGBM & AdaBoost \\
+\midrule
+\multirow{4}{*}{0} & \multirow{2}{*}{Peak} & Detrending & 0.97 & 1.00 & 0.92 & 0.98 & 1.01 \\
+& & Denoising & 1.00 & 0.98 & 0.94 & 0.99 & 1.01 \\
+\cmidrule(lr){3-8}
+& \multirow{2}{*}{Off} & Detrending & 0.77 & 0.91 & 0.78 & 1.02 & 1.00 \\
+& & Denoising & 0.76 & 0.89 & 0.80 & 1.00 & 1.00 \\
+\midrule
+\multirow{4}{*}{1} & \multirow{2}{*}{Peak} & Detrending & 1.07 & 1.05 & 0.83 & 1.01 & 1.02 \\
+& & Denoising & 1.05 & 1.00 & 0.87 & 1.00 & 1.02 \\
+\cmidrule(lr){3-8}
+& \multirow{2}{*}{Off} & Detrending & 0.89 & 0.92 & 0.88 & 1.01 & 0.96 \\
+& & Denoising & 0.83 & 0.93 & 0.88 & 0.99 & 0.96 \\
+\midrule
+\multirow{4}{*}{2} & \multirow{2}{*}{Peak} & Detrending & 1.05 & 1.04 & 1.10 & 0.97 & 1.00 \\
+& & Denoising & 1.04 & 1.00 & 1.11 & 0.99 & 1.00 \\
+\cmidrule(lr){3-8}
+& \multirow{2}{*}{Off} & Detrending & 0.88 & 0.91 & 0.80 & 0.91 & 0.98 \\
+& & Denoising & 0.86 & 0.91 & 0.82 & 0.89 & 0.98 \\
+\midrule
+\multirow{4}{*}{3} & \multirow{2}{*}{Peak} & Detrending & 1.02 & 0.99 & 1.01 & 1.03 & 1.00 \\
+& & Denoising & 1.03 & 0.97 & 1.03 & 1.04 & 1.00 \\
+\cmidrule(lr){3-8}
+& \multirow{2}{*}{Off} & Detrending & 0.95 & 0.94 & 0.86 & 0.95 & 0.95 \\
+& & Denoising & 0.93 & 0.94 & 0.82 & 1.02 & 0.94 \\
+\bottomrule
+\end{tabular}
+} % end resizebox
+\vspace{5pt}
+\caption{Average relative efficiency between detrending/denoising and clustering across all locations, horizons, and models during peak (December--January) and off (February--November) periods over two influenza seasons. Values below 1 indicate better performance than clustering.}
+\label{tab:peak_off_mses}
+\end{table}

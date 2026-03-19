@@ -1,0 +1,31 @@
+Horizon  Method              ARIMAX   SARIMAX   ARGO   LightGBM  AdaBoost
+-------------------------------------------------------------------------
+0        Detrending            *†‡      †‡       *†      *†‡        *†   
+         Denoising             *†‡      †‡       *†      *†‡        *†   
+         Clustering            *†‡      †‡       *†       *         *†   
+         Topics                                  *        *         *    
+         Non-preprocessed                                 *         *    
+-------------------------------------------------------------------------
+1        Detrending            *†‡      *†‡      *†      *†‡        *†   
+         Denoising             *†‡      *†‡      *†      *†‡        *†   
+         Clustering            *†‡      *†‡      *†       *         *    
+         Topics                                  *        *         *    
+         Non-preprocessed                                 *         *    
+-------------------------------------------------------------------------
+2        Detrending            *†‡      *†‡      *†      *†‡        *†   
+         Denoising             *†‡      *†‡      *†      *†‡        *†   
+         Clustering            *†‡      *†‡     *†‡       *         *    
+         Topics                                  *        *         *    
+         Non-preprocessed                        *        *         *    
+-------------------------------------------------------------------------
+3        Detrending            *†‡      *†‡     *†‡      *†‡        *†   
+         Denoising             *†‡      *†‡     *†‡       *†        *†   
+         Clustering            *†‡      *†‡     *†‡       *         *†   
+         Topics                                  *        *         *    
+         Non-preprocessed                *       *        *         *    
+
+Notes:
+* : p < 0.05 for models with exogenous data against baselines
+† : p < 0.05 for preprocessed versus non-preprocessed data
+‡ : p < 0.05 for preprocessed versus topic-only data
+blank: not significant at 0.05

@@ -1,0 +1,37 @@
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llccccc}
+\toprule
+{Horizon} & {Method} & {ARIMAX} & {SARIMAX} & {ARGO} & {LightGBM} & {AdaBoost} \\
+\midrule
+\multirow{5}{*}{0} & Detrending & $^{*\dagger\ddagger}$ & $^{\dagger\ddagger}$ & $^{*\dagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger}$ \\
+ & Denoising & $^{*\dagger\ddagger}$ & $^{\dagger\ddagger}$ & $^{*\dagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger}$ \\
+ & Clustering & $^{*\dagger\ddagger}$ & $^{\dagger\ddagger}$ & $^{*\dagger}$ & $^{*}$ & $^{*\dagger}$ \\
+ & Topics &  &  & $^{*}$ & $^{*}$ & $^{*}$ \\
+ & Non-preprocessed &  &  &  & $^{*}$ & $^{*}$ \\
+\midrule
+\multirow{5}{*}{1} & Detrending & $^{*\dagger\ddagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger}$ \\
+ & Denoising & $^{*\dagger\ddagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger}$ \\
+ & Clustering & $^{*\dagger\ddagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger}$ & $^{*}$ & $^{*}$ \\
+ & Topics &  &  & $^{*}$ & $^{*}$ & $^{*}$ \\
+ & Non-preprocessed &  &  &  & $^{*}$ & $^{*}$ \\
+\midrule
+\multirow{5}{*}{2} & Detrending & $^{*\dagger\ddagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger}$ \\
+ & Denoising & $^{*\dagger\ddagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger}$ \\
+ & Clustering & $^{*\dagger\ddagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger\ddagger}$ & $^{*}$ & $^{*}$ \\
+ & Topics &  &  & $^{*}$ & $^{*}$ & $^{*}$ \\
+ & Non-preprocessed &  &  & $^{*}$ & $^{*}$ & $^{*}$ \\
+\midrule
+\multirow{5}{*}{3} & Detrending & $^{*\dagger\ddagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger}$ \\
+ & Denoising & $^{*\dagger\ddagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger}$ & $^{*\dagger}$ \\
+ & Clustering & $^{*\dagger\ddagger}$ & $^{*\dagger\ddagger}$ & $^{*\dagger\ddagger}$ & $^{*}$ & $^{*\dagger}$ \\
+ & Topics &  &  & $^{*}$ & $^{*}$ & $^{*}$ \\
+ & Non-preprocessed &  & $^{*}$ & $^{*}$ & $^{*}$ & $^{*}$ \\
+\bottomrule
+\end{tabular}
+} % end resizebox
+\vspace{5pt}
+\caption{Wilcoxon Signed-Rank Test significance markers across horizons, methods, and models. Symbols indicate: $*: p < 0.05$ for models with exogenous data against baselines; $\dagger: p < 0.05$ for preprocessed versus non-preprocessed data; and $\ddagger: p < 0.05$ for preprocessed versus topic-only data.}
+\label{tab:wilcoxon_significance}
+\end{table}

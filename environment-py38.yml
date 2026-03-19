@@ -1,0 +1,8 @@
+name: py38-main
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8.17
+  - pip
+  - pip:
+      - -r requirements-lock.txt

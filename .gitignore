@@ -1,0 +1,56 @@
+# R environment
+renv/library/
+renv/activate.R
+.Rproj.user/
+.Rhistory
+*.Rproj
+
+# Python environment and caches
+venv/
+.venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Large data files (keep structure, ignore contents)
+# data/01_raw/individual_merged_trends/*.csv
+# data/01_raw/*.csv.zip
+
+# Temporary files and outputs
+*.tmp
+*.log
+*.out
+*.err
+.DS_Store
+
+# IDE specific files
+.vscode/settings.json
+.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Temporary analysis outputs
+*.RData
+*.rdata
+temp/
+
+# Note: The following are tracked and should be committed:
+# - renv.lock (R dependency lock file)
+# - requirements.txt (Python dependencies)
+# - SETUP.md (setup instructions)
+# - All .R, .py, .ipynb script files
+# - README.md and other documentation

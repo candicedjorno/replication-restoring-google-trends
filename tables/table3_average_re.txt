@@ -1,0 +1,19 @@
+Average relative efficiency table
+
+ Horizon Season     Method  ARIMAX  SARIMAX  ARGO  LightGBM  AdaBoost
+       0   Peak Detrending    0.97     1.00  0.92      0.98      1.01
+       0   Peak  Denoising    1.00     0.98  0.94      0.99      1.01
+       0    Off Detrending    0.77     0.91  0.78      1.02      1.00
+       0    Off  Denoising    0.76     0.89  0.80      1.00      1.00
+       1   Peak Detrending    1.07     1.05  0.83      1.01      1.02
+       1   Peak  Denoising    1.05     1.00  0.87      1.00      1.02
+       1    Off Detrending    0.89     0.92  0.88      1.01      0.96
+       1    Off  Denoising    0.83     0.93  0.88      0.99      0.96
+       2   Peak Detrending    1.05     1.04  1.10      0.97      1.00
+       2   Peak  Denoising    1.04     1.00  1.11      0.99      1.00
+       2    Off Detrending    0.88     0.91  0.80      0.91      0.98
+       2    Off  Denoising    0.86     0.91  0.82      0.89      0.98
+       3   Peak Detrending    1.02     0.99  1.01      1.03      1.00
+       3   Peak  Denoising    1.03     0.97  1.03      1.04      1.00
+       3    Off Detrending    0.95     0.94  0.86      0.95      0.95
+       3    Off  Denoising    0.93     0.94  0.82      1.02      0.94

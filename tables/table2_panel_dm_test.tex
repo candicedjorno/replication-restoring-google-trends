@@ -1,0 +1,35 @@
+\begin{table}[H]
+\centering
+\begin{tabular}{clccccc}
+\toprule
+Horizon & Method & ARIMAX & SARIMAX & ARGO & LightGBM & AdaBoost \\
+\midrule
+\multirow{5}{*}{0} & Detrending & $*$ & $-$ & $*$ & $*$ &  \\
+ & Denoising & $*$ & $-$ & $*$ & $*$ &  \\
+ & Clustering &  &  & $*$ & $*$ &  \\
+ & Topics & $-$ &  & $*$ &  &  \\
+ & Non-preprocessed & $-$ & $-$ & $-$ & $*$ &  \\
+\midrule
+\multirow{5}{*}{1} & Detrending & $*$ &  & $*$ &  & $*$ \\
+ & Denoising & $*$ &  & $*$ &  & $*$ \\
+ & Clustering &  &  & $*$ &  & $*$ \\
+ & Topics & $-$ &  & $*$ &  & $*$ \\
+ & Non-preprocessed & $-$ &  &  &  & $*$ \\
+\midrule
+\multirow{5}{*}{2} & Detrending & $*$ &  & $*$ &  & $*$ \\
+ & Denoising & $*$ & $*$ & $*$ &  & $*$ \\
+ & Clustering &  &  & $*$ &  & $*$ \\
+ & Topics & $-$ &  & $*$ &  & $*$ \\
+ & Non-preprocessed & $-$ &  &  &  &  \\
+\midrule
+\multirow{5}{*}{3} & Detrending & $*$ &  & $*$ &  &  \\
+ & Denoising & $*$ & $*$ & $*$ &  & $*$ \\
+ & Clustering &  &  & $*$ &  &  \\
+ & Topics & $-$ & $-$ &  &  & $*$ \\
+ & Non-preprocessed & $-$ &  &  &  &  \\
+\bottomrule
+\end{tabular}
+\vspace{5pt}
+\caption{Panel Modified Diebold-Mariano test for models with exogenous data against omitting exogenous variables. p-values are reported as $*:  p < 0.05$ for models better than the baseline; $-: p > 0.95$ for models worse than the baseline; and blank cells for non-significant p-values at 0.05.}
+\label{tab:panel_dm}
+\end{table}
