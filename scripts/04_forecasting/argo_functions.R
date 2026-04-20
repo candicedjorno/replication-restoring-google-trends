@@ -58,20 +58,18 @@ filter_corr <- function(data, y, percentile_value, top_n, corr_cutoff = 0.9) {
 }
 
 num_cores <- detectCores() - 1  # Leave 1 core free for other tasks
-# num_cores <- 1
 
 argo <- function(data, exogen=xts::xts(NULL), N_lag=1:52, N_training=104,
                  percentile_value, top_n, corr_cutoff = 0.9,
                  alpha, use_all_previous=FALSE, mc.cores=num_cores, schedule = list()){
-
-  data_save <- data
+  
   if(is.null(schedule$y_gap)){
     schedule$y_gap <- 1 # default information gap is 1
   }
   if(is.null(schedule$forecast)){
     schedule$forecast <- 0 # default is now-cast
   }
-
+  
   parm <- list(N_lag = N_lag, N_training = N_training,
                alpha = alpha, use_all_previous = use_all_previous,
                schedule = schedule)
@@ -84,46 +82,33 @@ argo <- function(data, exogen=xts::xts(NULL), N_lag=1:52, N_training=104,
     data_mat <- xts::xts(data_mat, zoo::index(data))
     data <- data_mat
   }
-
+  
   lasso.pred <- c()
   lasso.coef <- list()
-
+  
   if(length(exogen)>0) # exogenous variables must have the same timestamp as y
     if(!all(zoo::index(data)==zoo::index(exogen)))
       stop("error in data and exogen: their time steps must match")
-
+  
   starttime <- N_training+max(c(N_lag,0)) + 2*schedule$y_gap + schedule$forecast
   endtime <- nrow(data)
   
-  y_train <- data_save[index(data_save) < as.Date("2022-10-01")]
-  exogen_train <- exogen[index(exogen) < as.Date("2022-10-01")]
-  
-  if(length(exogen) > 0 && schedule$y_gap > 0){
-    corr_results <- filter_corr(exogen_train, y_train,
-                                percentile_value = percentile_value,
-                                top_n = top_n, corr_cutoff = corr_cutoff)
-    X_selected <- exogen[, corr_results$selected_names, drop = FALSE]
-    exogen <- X_selected
-  }else{
-    exogen <- exogen
-  }
-
   each_iteration <- function(i) {
     if(use_all_previous){
       training_idx <- (schedule$y_gap + schedule$forecast + max(c(N_lag, 0))):(i - schedule$y_gap)
     }else{
       training_idx <- (i - N_training + 1):i - schedule$y_gap
     }
-
+    
     lagged_y <- sapply(N_lag, function(l)
       as.numeric(diag(data.matrix(data[training_idx - l + 1 - schedule$y_gap - schedule$forecast,training_idx- schedule$forecast]))))
-
+    
     if(length(lagged_y) == 0){
       lagged_y <- NULL
     }else{
       colnames(lagged_y) <- paste0("lag_", N_lag+schedule$y_gap-1)
     }
-
+    
     # design matrix for training phase
     if(length(exogen) > 0 && schedule$y_gap > 0){
       xmat <- lapply(1:schedule$y_gap, function(l)
@@ -133,20 +118,31 @@ argo <- function(data, exogen=xts::xts(NULL), N_lag=1:52, N_training=104,
     }else{
       design_matrix <- cbind(lagged_y)
     }
+    
     y.response <- data[training_idx - schedule$forecast, i]
     
-
+    # ---- Correlation-based variable selection ----
+    if(length(exogen) > 0 && schedule$y_gap > 0){
+      corr_results <- filter_corr(design_matrix, y.response,
+                                  percentile_value = percentile_value,
+                                  top_n = top_n, corr_cutoff = corr_cutoff)
+      X_selected <- design_matrix[, corr_results$selected_names, drop = FALSE]
+      design_matrix <- X_selected
+    }else{
+      design_matrix <- design_matrix
+    }
+    
     if(is.finite(alpha)){
       lasso.fit <-
         glmnet::cv.glmnet(x=design_matrix,y=y.response,nfolds=10,
                           grouped=FALSE,alpha=alpha)
-
+      
       lam.s <- lasso.fit$lambda.1se
-
+      
     }else{
       lasso.fit <- lm(y.response ~ ., data=data.frame(design_matrix))
     }
-
+    
     if(is.finite(alpha)){
       lasso.coef[[i]] <- as.matrix(coef(lasso.fit, lambda = lam.s))
     }else{
@@ -171,7 +167,8 @@ argo <- function(data, exogen=xts::xts(NULL), N_lag=1:52, N_training=104,
       # forecasting
       if(length(exogen) > 0 && schedule$y_gap > 0){
         colnames(newx) <- c(paste0("lag_", N_lag+schedule$y_gap-1), colnames(xmat.new))
-        lasso.pred[i] <- predict(lasso.fit, newx = newx, s = lam.s)
+        newx_selected <- newx[, corr_results$selected_names, drop = FALSE]
+        lasso.pred[i] <- predict(lasso.fit, newx = newx_selected, s = lam.s)
       } else{
         lasso.pred[i] <- predict(lasso.fit, newx = newx, s = lam.s)
       }
@@ -179,20 +176,21 @@ argo <- function(data, exogen=xts::xts(NULL), N_lag=1:52, N_training=104,
       colnames(newx) <- c(paste0("lag_", N_lag+schedule$y_gap-1), colnames(xmat.new))
       newx <- as.data.frame(newx)
       colnames(newx) <- make.names(colnames(newx))
-      lasso.pred[i] <- predict(lasso.fit, newdata = as.data.frame(newx))
+      newx_selected <- newx[, make.names(corr_results$selected_names), drop = FALSE]
+      lasso.pred[i] <- predict(lasso.fit, newdata = as.data.frame(newx_selected))
     }
     result_i <- list()
     result_i$pred <- lasso.pred[i]
     result_i$coef <- lasso.coef[[i]]
     result_i
   }
-
+  
   result_all <- parallel::mclapply(starttime:endtime, each_iteration,
                                    mc.cores = mc.cores, mc.set.seed = FALSE)
-
+  
   lasso.pred[starttime:endtime] <- sapply(result_all, function(x) x$pred)
   lasso.coef <- lapply(result_all, function(x) x$coef)
-
+  
   data$predict <- lasso.pred
   argo <- list(pred = data$predict, parm = parm)
   class(argo) <- "argo"

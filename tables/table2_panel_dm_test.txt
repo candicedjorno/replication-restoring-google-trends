@@ -1,6 +1,6 @@
 Horizon | Method             | ARIMAX  | SARIMAX | ARGO     | LightGBM | AdaBoost
 ---------------------------------------------------------------------------------
-0       | Detrending         | *       | -       | *        | *        |         
+0       | Detrending         | *       |         | *        | *        |         
         | Denoising          | *       | -       | *        | *        |         
         | Clustering         |         |         | *        | *        |         
         | Topics             | -       |         | *        |          |         
@@ -9,7 +9,7 @@ Horizon | Method             | ARIMAX  | SARIMAX | ARGO     | LightGBM | AdaBoos
 1       | Detrending         | *       |         | *        |          | *       
         | Denoising          | *       |         | *        |          | *       
         | Clustering         |         |         | *        |          | *       
-        | Topics             | -       |         | *        |          | *       
+        | Topics             | -       | -       | *        |          | *       
         | Non-preprocessed   | -       |         |          |          | *       
 ---------------------------------------------------------------------------------
 2       | Detrending         | *       |         | *        |          | *       
@@ -21,7 +21,7 @@ Horizon | Method             | ARIMAX  | SARIMAX | ARGO     | LightGBM | AdaBoos
 3       | Detrending         | *       |         | *        |          |         
         | Denoising          | *       | *       | *        |          | *       
         | Clustering         |         |         | *        |          |         
-        | Topics             | -       | -       |          |          | *       
+        | Topics             | -       |         |          |          | *       
         | Non-preprocessed   | -       |         |          |          |         
 
 Notes:

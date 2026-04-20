@@ -242,7 +242,7 @@ def run_arimax_all_locations(geo, save_dir, prefix, name):
         f'rmse_{prefix}_h2': rmses_h2,
         f'rmse_{prefix}_h3': rmses_h3
     })
-    rmses_df.to_csv(f'{save_dir}/{prefix}_{name}_rmses.csv', index=False)
+    rmses_df.to_csv(f'{save_dir_rmse}/{prefix}_{name}_rmses.csv', index=False)
     return preds_h0, preds_h1, preds_h2, preds_h3, rmses_df
 
 # individual keywords
@@ -366,7 +366,7 @@ def run_arimax_topics_all_locations(geo, save_dir, prefix, name):
         f'rmse_{prefix}_h2': rmses_h2,
         f'rmse_{prefix}_h3': rmses_h3
     })
-    rmses_df.to_csv(f'{save_dir}/{prefix}_{name}_rmses.csv', index=False)
+    rmses_df.to_csv(f'{save_dir_rmse}/{prefix}_{name}_rmses.csv', index=False)
     return preds_h0, preds_h1, preds_h2, preds_h3, rmses_df
 
 # topics only

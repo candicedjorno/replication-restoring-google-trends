@@ -16,3 +16,4 @@ dependencies:
   - r-stringr
   - r-purrr
   - r-murphydiagram
+  - r-rssa

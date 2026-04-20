@@ -75,7 +75,7 @@ plt.grid(True, axis='y', color='lightgray', alpha=0.5)
 plt.grid(True, axis='x', color='lightgray', alpha=0.5)
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig2_example_volumes.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ## Figure 3: Examples of issues in Google Trends search volumes for California and Alaska
 
@@ -112,7 +112,7 @@ plt.grid(True, axis='y', color='lightgray', alpha=0.5)
 plt.grid(True, axis='x', color='lightgray', alpha=0.5)
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig3a_missing_values.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ### (b): Noise in "Acute Bronchitis" in California
 
@@ -133,7 +133,7 @@ plt.grid(True, axis='y', color='lightgray', alpha=0.5)
 plt.grid(True, axis='x', color='lightgray', alpha=0.5)
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig3b_noise.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ### (c): Trend in "Cough" in California
 
@@ -156,7 +156,7 @@ plt.grid(True, axis='y', color='lightgray', alpha=0.5)
 plt.grid(True, axis='x', color='lightgray', alpha=0.5)
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig3c_trend.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ### (d): Sampling Variability across different downloads for "Common Cold" in Alaska
 
@@ -194,7 +194,7 @@ plt.grid(True, axis='y', color='lightgray', alpha=0.5)
 plt.grid(True, axis='x', color='lightgray', alpha=0.5)
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig3d_sampling_variability.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ## Table S1: Overall percentage of zeros across multiple downloads of Google Trends search volumes for the same 161 keywords across 52 locations.
 
@@ -277,7 +277,7 @@ plt.grid(True, axis='y', color='lightgray', alpha=0.5)
 plt.grid(True, axis='x', color='lightgray', alpha=0.5)
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig4_updates.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ## Figure 5: Example comparison of search volumes in Tennessee
 
@@ -341,7 +341,7 @@ for i in range(len(c1)):
 
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig5a_individual.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ### (b) Combined (large values truncated)
 
@@ -362,7 +362,7 @@ plt.grid(True, axis='y', color='lightgray', alpha=0.5)
 plt.grid(True, axis='x', color='lightgray', alpha=0.5)
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig5b_combined.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ### (c) Summation (large values truncated)
 
@@ -385,7 +385,7 @@ plt.grid(True, axis='y', color='lightgray', alpha=0.5)
 plt.grid(True, axis='x', color='lightgray', alpha=0.5)
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig5c_summation.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ## Figure 6: Distribution of percentage of zeros in individual and combined search volumes across all locations
 
@@ -464,7 +464,7 @@ plt.grid(False)  # Remove all grid lines
 sns.despine() # Remove top and right borders for a cleaner look
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig6a_indiv_zeros.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ### (b) Combined
 
@@ -525,7 +525,7 @@ plt.grid(False)  # Remove all grid lines
 sns.despine() # Remove top and right borders for a cleaner look
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig6b_combined_zeros.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ## Figure 7: Example comparison of noise levels before and after denoising across five downloads in Alaska
 
@@ -571,7 +571,7 @@ plt.grid(True, axis='y', color='lightgray', alpha=0.5)
 plt.grid(True, axis='x', color='lightgray', alpha=0.5)
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig7a_variability_raw.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ### (b) Denoised
 
@@ -623,7 +623,7 @@ plt.grid(True, axis='y', color='lightgray', alpha=0.5)
 plt.grid(True, axis='x', color='lightgray', alpha=0.5)
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig7b_variability_smooth.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ## Figure 8: Descriptive statistics before and after denoising across 27 downloads in Alaska example
 
@@ -717,7 +717,7 @@ plt.grid(True, axis='y', color='lightgray', alpha=0.5)
 plt.grid(True, axis='x', color='lightgray', alpha=0.5)
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig8a_average_raw_denoised.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ### (b) Standard deviation
 
@@ -739,7 +739,7 @@ plt.grid(True, axis='y', color='lightgray', alpha=0.5)
 plt.grid(True, axis='x', color='lightgray', alpha=0.5)
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig8b_std_raw_denoised.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ## Figure 9: Log ratio of SNR across 27 downloads. Higher is better
 
@@ -762,7 +762,7 @@ plt.grid(True, axis='y', color='lightgray', alpha=0.5)
 plt.grid(True, axis='x', color='lightgray', alpha=0.5)
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig9a_ratio_snr_single.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ### (b) Summary across all keywords and locations
 
@@ -812,7 +812,7 @@ plt.yticks(fontsize=10)
 # Show the plot
 plt.tight_layout()  # Make sure everything fits in the plot area
 plt.savefig(f'{fig_save}fig9b_ratio_snr_boxplot.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ## Figure 10: Ratios of RMSEs across all locations and horizons for different denoising methods, relative to smoothing splines (benchmark). Values below 1 indicate better performance than smoothing splines.
 
@@ -924,7 +924,7 @@ for idx, h in enumerate(horizons):
 
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig10_smooth_boxplot.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ## Figure 11: Example of estimated deterministic trend in raw and detrended data in Alabama
 
@@ -1022,7 +1022,7 @@ plt.legend(loc='lower right', fontsize=8)
 # Add tight layout for better spacing
 plt.tight_layout()
 plt.savefig(f'{fig_save}fig11_raw_detrended.pdf', format='pdf', bbox_inches='tight')
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ## Figure 12: Summary of R2 for deterministic trends before and after detrending across all locations
 
@@ -1196,8 +1196,7 @@ plt.yticks(fontsize=10)
 # Show the plot
 plt.tight_layout()  # Make sure everything fits in the plot area
 plt.savefig(f'{fig_save}fig12_r2_boxplot.pdf', format='pdf', bbox_inches='tight')
-
-plt.show()
+# plt.show()  # Commented out for batch execution
 
 ## Figure S2: Ratios RMSEs across all locations and horizons for different datasets, relative to the model without exogenous variables (baseline). Values below 1 indicate better performance than the baseline.
 
@@ -1299,7 +1298,7 @@ def plot_all_models_boxplot(mses_dfs, horizons, model_names, labels=None):
     plt.tight_layout()
     # save image
     plt.savefig(f'{fig_save}figS2_ratio_rmses.pdf', format='pdf', bbox_inches='tight')
-    plt.show()
+    # plt.show()
 
 horizons = ['h0', 'h1', 'h2', 'h3']
 method_names = ['noexog', 'indiv', 'topics', 'clusters', 'smooth', 'detrend']
@@ -1542,13 +1541,13 @@ def compute_rel_eff_by_season(errors_dict_h, model):
 
     # Match METHOD 1 behavior: remove top 1% outliers for SARIMAX only
     if model == "sarimax_010":
-        peak_clusters = remove_outliers(peak_clusters, quantile=0.99)
-        peak_detrend = remove_outliers(peak_detrend, quantile=0.99)
-        peak_smooth = remove_outliers(peak_smooth, quantile=0.99)
+        peak_clusters = remove_outliers(peak_clusters, quantile=0.98)
+        peak_detrend = remove_outliers(peak_detrend, quantile=0.98)
+        peak_smooth = remove_outliers(peak_smooth, quantile=0.98)
 
-        off_clusters = remove_outliers(off_clusters, quantile=0.99)
-        off_detrend = remove_outliers(off_detrend, quantile=0.99)
-        off_smooth = remove_outliers(off_smooth, quantile=0.99)
+        off_clusters = remove_outliers(off_clusters, quantile=0.98)
+        off_detrend = remove_outliers(off_detrend, quantile=0.98)
+        off_smooth = remove_outliers(off_smooth, quantile=0.98)
 
     peak_det = peak_detrend.mean() / peak_clusters.mean()
     peak_smo = peak_smooth.mean() / peak_clusters.mean()
@@ -1756,7 +1755,7 @@ def plot_rmse_over_time_panels(errors_dict, horizons, model, fig_number):
 
     plt.tight_layout()  # Adjust layout for better spacing
     plt.savefig(f'{fig_save}figS3{fig_number}_{model}.pdf', format='pdf', bbox_inches='tight')
-    plt.show()
+    # plt.show()
 
 
 # removing outliers to discern differences better
@@ -1788,7 +1787,7 @@ def plot_rmse_over_time_panels_no_out(errors_dict, horizons, model, fig_number, 
 
     plt.tight_layout()  # Adjust layout for better spacing
     plt.savefig(f'{fig_save}figS3{fig_number}_{model}.pdf', format='pdf', bbox_inches='tight')
-    plt.show()
+    # plt.show()  # Commented out for batch execution
 
 ### (a) ARIMAX
 

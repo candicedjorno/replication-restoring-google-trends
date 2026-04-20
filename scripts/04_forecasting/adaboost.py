@@ -56,7 +56,6 @@ def filter_corr(state, data, hosp_state, percentile_value=25):
     
     # percentile-based threshold based on correlation distribution
     corr_threshold = np.percentile(correlations.dropna(), percentile_value)
-    # corr_threshold = 0.3 # setting a fixed threshold for correlation
 
     filtered_corrs = correlations[correlations >= corr_threshold]
     selected_columns = filtered_corrs.index.tolist()
@@ -163,7 +162,6 @@ def ada_forecast_expanding_window(X_ts, Y_ts, horizon, lags, exog_lags):
     actuals = []
     test_ds = []
     for test_date in test_dates:
-        # train = df[df['ds'] < test_date]
         train = df[(df['ds'] < test_date) & (df['ds'] > '2018-10-01')] # expanding window
         train = train.dropna().reset_index(drop=True)
 

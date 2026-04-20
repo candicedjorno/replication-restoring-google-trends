@@ -50,3 +50,4 @@ US-WI
 US-WV
 US-WY
 US
+PR

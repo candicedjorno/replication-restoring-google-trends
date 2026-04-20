@@ -18,7 +18,7 @@ data_prep <- function(state, gt_ts) {
   } else if (state == "PR") {
     state_name <- "Puerto Rico"
   } else {
-    # mapping the state name to is abbreviation
+    # mapping the state name to its abbreviation
     # state.name/state.abb are functions related to the 50 states
     state_name <- state.name[match(state_code, state.abb)]
   }

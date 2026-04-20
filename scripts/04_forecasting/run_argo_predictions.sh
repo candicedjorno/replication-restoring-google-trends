@@ -2,8 +2,8 @@
 set -e
 
 CONDA_BIN="$HOME/miniconda3/bin/conda"
-ENV_NAME="Renv433"
-ENV_FILE="environment-R.yml"
+ENV_NAME="Renv441"
+ENV_FILE="environment-R441.yml"
 RSCRIPT_FILE="scripts/04_forecasting/argo_predictions.R"
 
 if ! "$CONDA_BIN" run -n "$ENV_NAME" Rscript -e "sessionInfo()" >/dev/null 2>&1; then
