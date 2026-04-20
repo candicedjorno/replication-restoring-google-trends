@@ -83,7 +83,6 @@ def create_lagged_features(Y_ts, X_ts, lags, exog_lags, horizon):
     return df, feature_cols
 
 
-# this actually uses a rolling window, not an expanding window
 def ada_forecast_expanding_window(X_ts, Y_ts, horizon, lags, exog_lags):
     df, feature_cols = create_lagged_features(Y_ts=Y_ts, X_ts=X_ts, lags=lags, horizon=horizon, exog_lags=exog_lags)
     test_mask = (df['ds'] > min_date) & (df['ds'] <= max_date)
@@ -136,24 +135,12 @@ def process_single_location_indiv(state, files, hosp, hosp_train, lags, exog_lag
         data_sub = data.iloc[:hosp_train.shape[0]]
         correlations = data_sub.corrwith(hosp_sub)
         # percentile-based threshold based on correlation distribution
-        corr_threshold = np.percentile(correlations.dropna(), 25)
+        corr_threshold = np.percentile(correlations.dropna(), 0)
         filtered_corrs = correlations[correlations >= corr_threshold]
 
         selected_columns = filtered_corrs.index.tolist()
-        # computing the correlation matrix for the selected columns
-        selected_corr_matrix = data_sub[selected_columns].corr().abs()
-        
-        # identifying highly correlated pairs (above 0.90) to avoid multicollinearity
-        to_remove = set()
-        for i in range(len(selected_columns)):
-            for j in range(i + 1, len(selected_columns)):
-                if selected_corr_matrix.iloc[i, j] > 0.90:
-                    # keeping only one of the two variables
-                    to_remove.add(selected_columns[j])  # removing the second one
-
-                    
-        final_columns = [col for col in selected_columns if col not in to_remove]
-        corrs_25 = filtered_corrs.loc[final_columns].nlargest(35)
+        final_columns = selected_columns
+        corrs_25 = filtered_corrs.loc[final_columns].nlargest(26)
         final_25 = corrs_25.index.tolist()
         columns_to_keep.append(final_25)
         columns_to_keep_flat = [col for sublist in columns_to_keep for col in sublist]
@@ -292,7 +279,7 @@ def process_single_location_topics(state, files, hosp, hosp_train, lags, exog_la
         filtered_df = data_sub[topic_cols]
         correlations = filtered_df.corrwith(hosp_sub)
         # percentile-based threshold based on correlation distribution
-        corr_threshold = np.percentile(correlations.dropna(), 25)
+        corr_threshold = np.percentile(correlations.dropna(), 0)
         filtered_corrs = correlations[correlations >= corr_threshold]
         # columns_to_keep.append(filtered_corrs.index.tolist())
         # columns_to_keep_flat = [col for sublist in columns_to_keep for col in sublist]
@@ -301,17 +288,17 @@ def process_single_location_topics(state, files, hosp, hosp_train, lags, exog_la
         # computing the correlation matrix for the selected columns
         selected_corr_matrix = data_sub[selected_columns].corr().abs()
         
-        # identifying highly correlated pairs (above 0.90) to avoid multicollinearity
+        # identifying highly correlated pairs (above 0.99) to avoid multicollinearity
         to_remove = set()
         for i in range(len(selected_columns)):
             for j in range(i + 1, len(selected_columns)):
-                if selected_corr_matrix.iloc[i, j] > 0.90:
+                if selected_corr_matrix.iloc[i, j] > 0.99:
                     # keeping only one of the two variables
                     to_remove.add(selected_columns[j])  # removing the second one
 
                     
         final_columns = [col for col in selected_columns if col not in to_remove]
-        corrs_25 = filtered_corrs.loc[final_columns].nlargest(35)
+        corrs_25 = filtered_corrs.loc[final_columns].nlargest(25)
         final_25 = corrs_25.index.tolist()
         columns_to_keep.append(final_25)
         columns_to_keep_flat = [col for sublist in columns_to_keep for col in sublist]

@@ -319,8 +319,11 @@ base_cells <- df_star %>%
 
 all_marks <- base_cells %>%
   left_join(df_star    %>% select(Horizon, Model, Method, star = Symbol), by = c("Horizon","Model","Method")) %>%
+  left_join(df_star    %>% select(Horizon, Model, Method, p_star = P_value), by = c("Horizon","Model","Method")) %>%
   left_join(df_dagger  %>% select(Horizon, Model, Method, dag  = Symbol), by = c("Horizon","Model","Method")) %>%
+  left_join(df_dagger  %>% select(Horizon, Model, Method, p_dag = P_value), by = c("Horizon","Model","Method")) %>%
   left_join(df_ddagger %>% select(Horizon, Model, Method, ddag = Symbol), by = c("Horizon","Model","Method")) %>%
+  left_join(df_ddagger %>% select(Horizon, Model, Method, p_ddag = P_value), by = c("Horizon","Model","Method")) %>%
   mutate(
     star = replace_na(star, ""),
     dag  = replace_na(dag, ""),
@@ -336,10 +339,33 @@ all_marks <- base_cells %>%
   ) %>%
   arrange(Horizon_num, Method, Model)
 
+format_p <- function(p) {
+  ifelse(is.na(p), "", sprintf("%.4f", p))
+}
+
+all_pvals <- all_marks %>%
+  mutate(
+    p_sig = pmap_chr(
+      list(p_star, p_dag, p_ddag),
+      function(ps, pd, pdd) {
+        parts <- c()
+        if (!is.na(ps)) parts <- c(parts, sprintf("%.4f", ps))
+        if (!is.na(pd)) parts <- c(parts, sprintf("%.4f", pd))
+        if (!is.na(pdd)) parts <- c(parts, sprintf("%.4f", pdd))
+        paste(parts, collapse = "; ")
+      }
+    )
+  )
+
 # Wide format: one row per horizon/method, one column per model
 tbl <- all_marks %>%
   select(Horizon_num, Method, Model, sig) %>%
   tidyr::pivot_wider(names_from = Model, values_from = sig) %>%
+  arrange(Horizon_num, Method)
+
+tbl_p <- all_pvals %>%
+  select(Horizon_num, Method, Model, p_sig) %>%
+  tidyr::pivot_wider(names_from = Model, values_from = p_sig) %>%
   arrange(Horizon_num, Method)
 
 # render latex
@@ -504,6 +530,76 @@ writeLines("blank: not significant at 0.05", con)
 close(con)
 
 cat("TXT table written to:", txt_file, "\n")
+
+pval_txt_base <- "tables/table1_wilcoxon_test_combined_pvalues"
+con_p_txt <- file(paste0(pval_txt_base, ".txt"), open = "wt")
+
+p_df <- tbl_p %>%
+  mutate(
+    across(all_of(needed_cols), ~replace_na(as.character(.), "")),
+    Horizon_num = as.integer(Horizon_num),
+    Method = factor(as.character(Method), levels = method_order, ordered = TRUE)
+  ) %>%
+  arrange(Horizon_num, Method) %>%
+  transmute(
+    Horizon = as.character(Horizon_num),
+    Method = unname(method_labels[as.character(Method)]),
+    ARIMAX = arimax_111,
+    SARIMAX = sarimax_010,
+    ARGO = argo,
+    LightGBM = lgbm,
+    AdaBoost = adaboost
+  ) %>%
+  group_by(Horizon) %>%
+  mutate(Horizon = ifelse(row_number() == 1, Horizon, "")) %>%
+  ungroup()
+
+w_h_p <- max(7, nchar("Horizon"), max(nchar(p_df$Horizon)))
+w_m_p <- max(18, nchar("Method"), max(nchar(p_df$Method)))
+w_a_p <- max(7, nchar("ARIMAX"), max(nchar(p_df$ARIMAX)))
+w_s_p <- max(7, nchar("SARIMAX"), max(nchar(p_df$SARIMAX)))
+w_g_p <- max(6, nchar("ARGO"), max(nchar(p_df$ARGO)))
+w_l_p <- max(8, nchar("LightGBM"), max(nchar(p_df$LightGBM)))
+w_d_p <- max(8, nchar("AdaBoost"), max(nchar(p_df$AdaBoost)))
+
+header_p <- paste(
+  left("Horizon", w_h_p),
+  left("Method", w_m_p),
+  center("ARIMAX", w_a_p),
+  center("SARIMAX", w_s_p),
+  center("ARGO", w_g_p),
+  center("LightGBM", w_l_p),
+  center("AdaBoost", w_d_p),
+  sep = "  "
+)
+
+sep_p <- strrep("-", nchar(header_p))
+writeLines(header_p, con_p_txt)
+writeLines(sep_p, con_p_txt)
+
+for (i in seq_len(nrow(p_df))) {
+  row <- p_df[i, ]
+  line <- paste(
+    left(row$Horizon, w_h_p),
+    left(row$Method, w_m_p),
+    center(row$ARIMAX, w_a_p),
+    center(row$SARIMAX, w_s_p),
+    center(row$ARGO, w_g_p),
+    center(row$LightGBM, w_l_p),
+    center(row$AdaBoost, w_d_p),
+    sep = "  "
+  )
+  writeLines(line, con_p_txt)
+  if (i %% 5 == 0 && i < nrow(p_df)) writeLines(sep_p, con_p_txt)
+}
+
+writeLines("", con_p_txt)
+writeLines("Notes:", con_p_txt)
+writeLines("Each cell reports raw p-values for applicable Wilcoxon comparisons in this order:", con_p_txt)
+writeLines("(1) exogenous vs baseline; (2) preprocessed vs non-preprocessed; (3) preprocessed vs topic-only.", con_p_txt)
+close(con_p_txt)
+
+cat("P-value TXT table written to:", paste0(pval_txt_base, ".txt"), "\n")
 
 # =========================================================
 # Panel DM test from Pesaran et al. (2013)
@@ -920,6 +1016,64 @@ writeLines("blank: not significant at 0.05", con_txt)
 close(con_txt)
 
 cat("TXT table written to:", out_file_txt, "\n")
+
+dm_pval_wide <- dmtest_table %>%
+  mutate(
+    Horizon_num = as.integer(str_remove(Horizon, "^h")),
+    Horizon = factor(Horizon, levels = horizon_order),
+    Method = factor(Method, levels = method_order),
+    Model = factor(Model, levels = models),
+    P_Val = sprintf("%.4f", P_Value)
+  ) %>%
+  arrange(Horizon, Method, Model) %>%
+  select(Horizon_num, Horizon, Method, Model, P_Val) %>%
+  pivot_wider(names_from = Model, values_from = P_Val) %>%
+  arrange(Horizon_num, Method)
+
+out_file_txt_p <- "tables/table2_panel_dm_test_pvalues.txt"
+con_txt_p <- file(out_file_txt_p, open = "wt")
+
+header_p <- sprintf(
+  "%-7s | %-18s | %-7s | %-7s | %-8s | %-8s | %-8s",
+  "Horizon", "Method", "ARIMAX", "SARIMAX", "ARGO", "LightGBM", "AdaBoost"
+)
+sep_p <- paste(rep("-", nchar(header_p)), collapse = "")
+
+writeLines(header_p, con_txt_p)
+writeLines(sep_p, con_txt_p)
+
+for (h in 0:3) {
+  sub <- dm_pval_wide %>% filter(Horizon_num == h)
+
+  for (i in seq_len(nrow(sub))) {
+    r <- sub[i, ]
+
+    horizon_cell <- if (i == 1) as.character(h) else ""
+    method_cell <- method_labels[[as.character(r$Method)]]
+
+    arimax_cell   <- ifelse(is.na(r$arimax_111), "", r$arimax_111)
+    sarimax_cell  <- ifelse(is.na(r$sarimax_010), "", r$sarimax_010)
+    argo_cell     <- ifelse(is.na(r$argo), "", r$argo)
+    lgbm_cell     <- ifelse(is.na(r$lgbm), "", r$lgbm)
+    adaboost_cell <- ifelse(is.na(r$adaboost), "", r$adaboost)
+
+    line <- sprintf(
+      "%-7s | %-18s | %-7s | %-7s | %-8s | %-8s | %-8s",
+      horizon_cell, method_cell,
+      arimax_cell, sarimax_cell, argo_cell, lgbm_cell, adaboost_cell
+    )
+    writeLines(line, con_txt_p)
+  }
+
+  if (h < 3) writeLines(sep_p, con_txt_p)
+}
+
+writeLines("", con_txt_p)
+writeLines("Notes:", con_txt_p)
+writeLines("Values are one-sided p-values from Panel Modified Diebold-Mariano tests.", con_txt_p)
+close(con_txt_p)
+
+cat("P-value TXT table written to:", out_file_txt_p, "\n")
 
 # =========================================================
 # Fluctuation test

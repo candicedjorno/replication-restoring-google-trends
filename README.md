@@ -29,7 +29,7 @@ Follow the steps below **in order** to fully reproduce the results.
    - The optimal number of clusters was selected using the Elbow method.
    - Outputs: `hierarchical_clusters` and `individual_terms`, merged into `terms` for each location. 
    
-*Note*: Because cluster selection used visual inspection of the Elbow plot, final cluster assignments per location used in the paper are provided in `hierarchical_clusters`. Running the notebook is optional and only demonstrates the clustering procedure. After identifying clusters, combined search volumes were collected for each location from Google Trends and merged into `cluster_gt.csv`.
+*Note*: Because cluster selection used visual inspection of the Elbow plot, final cluster assignments per location used in the paper are provided in `hierarchical_clusters`. This step requires to run the notebook cell by cell to obtain the cluster assignments based on visual inspection of the Elbow plot for each location. Only the results for US-TN are necessary to reproduce the plots in the manuscript. The optimal number of clusters for each location is provided in the file `optimal_clusters.txt`. After identifying clusters, combined search volumes were collected for each location from Google Trends and merged into `cluster_gt.csv`.
 
 2. **Denoising**
    - Scripts: `gt_denoising.R`, `ss_denoising.R`
@@ -181,7 +181,7 @@ Run via the per-script wrappers:
 bash scripts/<step_folder>/run_<script_name>.sh
 ```
 
-**R packages**: `environment-R.yml` lists the R packages used in the project. The `renv.lock` file contains the exact versions of these packages for reproducibility.
+**R packages**: `environment-R.yml`, `environment-R-denoising.yml`, `environment-R441.yml` list the R packages and their versions used in the different R scripts in the project. The `renv.lock` file contains the exact versions of the packages unspecified in the environment files for reproducibility.
 
 *Note*: The `argo` package functions are adapted for multiple-steps-ahead prediction and provided directly in `scripts/04_forecasting/argo_functions.R`.
 
@@ -210,7 +210,9 @@ Note: Denoising and some forecasting scripts use parallel computing.
 - Use Conda environments for reproducibility:
    - Python (main): `conda env create -f environment-py38.yml`
    - Python (indiv): `conda env create -f environment-py311.yml`
-   - R: `conda env create -f environment-R.yml`
+   - R (main): `conda env create -f environment-R.yml`
+   - R (denoising): `conda env create -f environment-R-denoising.yml`
+   - R (4.4.1): `conda env create -f environment-R441.yml`
 - Execute Python scripts through `run_*.sh` wrappers so each script runs in its intended environment.
 - `requirements-lock.txt` is part of the `py38-main` environment specification, not a standalone single-environment workflow.
 - Scripts use relative paths and must be run from specific directories
@@ -276,6 +278,8 @@ bash scripts/04_forecasting/run_lightgbm_indiv.sh
 
 bash scripts/04_forecasting/run_adaboost.sh
 bash scripts/04_forecasting/run_adaboost_indiv.sh
+
+bash scripts/04_forecasting/run_format.sh
 ```
 
 ## 5. Statistical testing
@@ -311,10 +315,11 @@ bash scripts/04_forecasting/run_lgbm_forecasting.sh && \
 bash scripts/04_forecasting/run_lightgbm_indiv.sh && \
 bash scripts/04_forecasting/run_adaboost.sh && \
 bash scripts/04_forecasting/run_adaboost_indiv.sh && \
+bash scripts/04_forecasting/run_format.sh && \
 bash scripts/05_statistical_testing/run_statistical_tests.sh && \
 bash scripts/06_plotting/run_manuscript_plots.sh
 ```
 
 ---
 
-**Last updated:** March 2026
+**Last updated:** April 2026

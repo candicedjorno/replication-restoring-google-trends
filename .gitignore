@@ -48,6 +48,12 @@ Thumbs.db
 *.rdata
 temp/
 
+# Original output snapshots
+data/03_preprocessed/original/
+figures/original/
+results/original/
+tables/original/
+
 # Note: The following are tracked and should be committed:
 # - renv.lock (R dependency lock file)
 # - requirements.txt (Python dependencies)

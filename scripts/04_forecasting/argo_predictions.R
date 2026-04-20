@@ -142,6 +142,10 @@ argo_smooth_h2 <- run_argo1(horizon = 2, gt_all = smooth_gt_h2)
 argo_detrend_h2 <- run_argo1(horizon = 2, gt_all = detrend_gt_h2)
 
 # retrieving last week of ARGO2 predictions from h0 as fitted value for last week of truth for h2
+last_week_noexog <- argo2_noexog_h0$argo2_res[nrow(argo2_noexog_h0$argo2_res),] # h0 preds
+last_week_noexog2 <- argo2_noexog_h1$argo2_res[nrow(argo2_noexog_h1$argo2_res),] # h1 preds
+truth_noexog_h2 <- c(argo_raw_h0$truth_state, last_week_noexog, last_week_noexog2)
+
 last_week_raw <- argo2_raw_h0$argo2_res[nrow(argo2_raw_h0$argo2_res),] # h0 preds
 last_week_raw2 <- argo2_raw_h1$argo2_res[nrow(argo2_raw_h1$argo2_res),] # h1 preds
 truth_raw_h2 <- c(argo_raw_h0$truth_state, last_week_raw, last_week_raw2)
@@ -155,6 +159,11 @@ last_week_detrend2 <- argo2_detrend_h1$argo2_res[nrow(argo2_detrend_h1$argo2_res
 truth_detrend_h2 <- c(argo_detrend_h0$truth_state, last_week_detrend, last_week_detrend2)
 
 # ARGO2 for horizon 2 for different Google Trends datasets
+argo2_noexog_h2 <- run_argo2(truth_state = truth_noexog_h2, 
+                          argo_state = argo_raw_h2$ar52_state, 
+                          argo_nat = argo_raw_h2$ar52_nat,
+                          horizon = 2)
+
 argo2_raw_h2 <- run_argo2(truth_state = truth_raw_h2, 
                           argo_state = argo_raw_h2$argo_state, 
                           argo_nat = argo_raw_h2$argo_nat,
@@ -186,6 +195,11 @@ argo_smooth_h3 <- run_argo1(horizon = 3, gt_all = smooth_gt_h3)
 argo_detrend_h3 <- run_argo1(horizon = 3, gt_all = detrend_gt_h3)
 
 # retrieving last week of ARGO2 predictions from h0 as fitted value for last week of truth for h3
+last_week_noexog <- argo2_noexog_h0$argo2_res[nrow(argo2_noexog_h0$argo2_res),] # h0 preds
+last_week_noexog2 <- argo2_noexog_h1$argo2_res[nrow(argo2_noexog_h1$argo2_res),] # h1 preds
+last_week_noexog3 <- argo2_noexog_h2$argo2_res[nrow(argo2_noexog_h2$argo2_res),] # h2 preds
+truth_noexog_h3 <- c(argo_raw_h0$truth_state, last_week_noexog, last_week_noexog2, last_week_noexog3)
+
 last_week_raw <- argo2_raw_h0$argo2_res[nrow(argo2_raw_h0$argo2_res),] # h0 preds
 last_week_raw2 <- argo2_raw_h1$argo2_res[nrow(argo2_raw_h1$argo2_res),] # h1 preds
 last_week_raw3 <- argo2_raw_h2$argo2_res[nrow(argo2_raw_h2$argo2_res),] # h2 preds
@@ -202,6 +216,11 @@ last_week_detrend3 <- argo2_detrend_h2$argo2_res[nrow(argo2_detrend_h2$argo2_res
 truth_detrend_h3 <- c(argo_detrend_h0$truth_state, last_week_detrend, last_week_detrend2, last_week_detrend3)
 
 # ARGO2 for horizon 2 for different Google Trends datasets
+argo2_noexog_h3 <- run_argo2(truth_state = truth_noexog_h3, 
+                             argo_state = argo_raw_h3$ar52_state, 
+                             argo_nat = argo_raw_h3$ar52_nat,
+                             horizon = 3)
+
 argo2_raw_h3 <- run_argo2(truth_state = truth_raw_h3, 
                           argo_state = argo_raw_h3$argo_state, 
                           argo_nat = argo_raw_h3$argo_nat,
@@ -245,10 +264,10 @@ rownames(truths_long) <- NULL
 ## HORIZON 0
 
 # ARGO1
-argo_raw_h0_preds <- data.frame(date = index(argo_raw_h0$argo_state), 
+argo_clusters_h0_preds <- data.frame(date = index(argo_raw_h0$argo_state), 
                                 cbind(coredata(argo_raw_h0$argo_state), argo_raw_h0$argo_nat), 
                                 check.names = FALSE)
-argo_raw_h0_preds_long <- format_output(argo_raw_h0_preds, "argo_raw", horizon = 0)
+argo_clusters_h0_preds_long <- format_output(argo_clusters_h0_preds, "argo_clusters", horizon = 0)
 
 argo_smooth_h0_preds <- data.frame(date = index(argo_smooth_h0$argo_state), 
                                 cbind(coredata(argo_smooth_h0$argo_state), argo_smooth_h0$argo_nat), 
@@ -293,10 +312,10 @@ argo2_detrend_h0_preds_long <- format_output(argo2_detrend_h0_preds, "argo2_detr
 ## HORIZON 1
 
 # ARGO1
-argo_raw_h1_preds <- data.frame(date = index(argo_raw_h1$argo_state), 
+argo_clusters_h1_preds <- data.frame(date = index(argo_raw_h1$argo_state), 
                                 cbind(coredata(argo_raw_h1$argo_state), argo_raw_h1$argo_nat), 
                                 check.names = FALSE)
-argo_raw_h1_preds_long <- format_output(argo_raw_h1_preds, "argo_raw", horizon = 1)
+argo_clusters_h1_preds_long <- format_output(argo_clusters_h1_preds, "argo_clusters", horizon = 1)
 
 argo_smooth_h1_preds <- data.frame(date = index(argo_smooth_h1$argo_state), 
                                 cbind(coredata(argo_smooth_h1$argo_state), argo_smooth_h1$argo_nat), 
@@ -339,10 +358,10 @@ argo2_detrend_h1_preds_long <- format_output(argo2_detrend_h1_preds, "argo2_detr
 ## HORIZON 2
 
 # ARGO1
-argo_raw_h2_preds <- data.frame(date = index(argo_raw_h2$argo_state), 
+argo_clusters_h2_preds <- data.frame(date = index(argo_raw_h2$argo_state), 
                                 cbind(coredata(argo_raw_h2$argo_state), argo_raw_h2$argo_nat), 
                                 check.names = FALSE)
-argo_raw_h2_preds_long <- format_output(argo_raw_h2_preds, "argo_raw", horizon = 2)
+argo_clusters_h2_preds_long <- format_output(argo_clusters_h2_preds, "argo_clusters", horizon = 2)
 
 argo_smooth_h2_preds <- data.frame(date = index(argo_smooth_h2$argo_state), 
                                    cbind(coredata(argo_smooth_h2$argo_state), argo_smooth_h2$argo_nat), 
@@ -385,10 +404,10 @@ argo2_detrend_h2_preds_long <- format_output(argo2_detrend_h2_preds, "argo2_detr
 ## HORIZON 3
 
 # ARGO1
-argo_raw_h3_preds <- data.frame(date = index(argo_raw_h3$argo_state), 
+argo_clusters_h3_preds <- data.frame(date = index(argo_raw_h3$argo_state), 
                                 cbind(coredata(argo_raw_h3$argo_state), argo_raw_h3$argo_nat), 
                                 check.names = FALSE)
-argo_raw_h3_preds_long <- format_output(argo_raw_h3_preds, "argo_raw", horizon = 3)
+argo_clusters_h3_preds_long <- format_output(argo_clusters_h3_preds, "argo_clusters", horizon = 3)
 
 argo_smooth_h3_preds <- data.frame(date = index(argo_smooth_h3$argo_state), 
                                    cbind(coredata(argo_smooth_h3$argo_state), argo_smooth_h3$argo_nat), 
@@ -432,10 +451,10 @@ argo2_detrend_h3_preds_long <- format_output(argo2_detrend_h3_preds, "argo2_detr
 save_dir <- "results/argo_results"
 
 ## Combining datasets for horizons 0-3 into a single dataset
-argo_raw <- rbind(argo_raw_h0_preds_long, argo_raw_h1_preds_long, 
-                  argo_raw_h2_preds_long, argo_raw_h3_preds_long)
-argo_raw_final <- argo_raw[order(argo_raw$reference_date, argo_raw$location, argo_raw$horizon), ]
-write.csv(argo_raw_final, file.path(save_dir, "argo_clusters.csv"), row.names = FALSE)
+argo_clusters <- rbind(argo_clusters_h0_preds_long, argo_clusters_h1_preds_long, 
+                  argo_clusters_h2_preds_long, argo_clusters_h3_preds_long)
+argo_clusters_final <- argo_clusters[order(argo_clusters$reference_date, argo_clusters$location, argo_clusters$horizon), ]
+write.csv(argo_clusters_final, file.path(save_dir, "argo_clusters.csv"), row.names = FALSE)
 
 argo_smooth <- rbind(argo_smooth_h0_preds_long, argo_smooth_h1_preds_long,
                      argo_smooth_h2_preds_long, argo_smooth_h3_preds_long)
@@ -491,7 +510,7 @@ rmse <- function(truth, predicted) {
 }
 
 horizons <- paste0("h", 0:3)
-data_names <- c("raw", "smooth", "detrend", "noexog")
+data_names <- c("clusters", "smooth", "detrend", "noexog")
 method <- "argo" 
 print(method)
 if(method == "argo") {

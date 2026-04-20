@@ -27,7 +27,7 @@ hosp_train = hosp[hosp['date'] <= cutoff]
 # all locations
 geo = pd.read_csv('data/01_raw/geo.txt', header = None)[0]
 
-# definition of SARIMAX(1,1,1)(1,1,1,52) model (yearly seasonality for weekly data)
+# definition of SARIMAX(1,1,1)(0,1,0,52) model (yearly seasonality for weekly data)
 model = ARIMA(
     order=(1, 1, 1),           # ARIMA(1,1,1)
     include_mean=False,        # No intercept if the series is stationary
@@ -38,6 +38,11 @@ model = ARIMA(
 
 save_dir = 'results/sarimax_results'
 save_dir_rmse = 'results/forecast_rmses'
+
+# Create directories if they don't exist
+import os
+os.makedirs(save_dir, exist_ok=True)
+os.makedirs(save_dir_rmse, exist_ok=True)
 
 # Helper functions
 
@@ -246,7 +251,7 @@ def run_arimax_all_locations(geo, save_dir, prefix, name):
         f'rmse_{prefix}_h2': rmses_h2,
         f'rmse_{prefix}_h3': rmses_h3
     })
-    rmses_df.to_csv(f'{save_dir}/{prefix}_{name}_rmses.csv', index=False)
+    rmses_df.to_csv(f'{save_dir_rmse}/{prefix}_{name}_rmses.csv', index=False)
     return preds_h0, preds_h1, preds_h2, preds_h3, rmses_df
 
 # individual keywords
@@ -373,7 +378,7 @@ def run_arimax_topics_all_locations(geo, save_dir, prefix, name):
         f'rmse_{prefix}_h2': rmses_h2,
         f'rmse_{prefix}_h3': rmses_h3
     })
-    rmses_df.to_csv(f'{save_dir}/{prefix}_{name}_rmses.csv', index=False)
+    rmses_df.to_csv(f'{save_dir_rmse}/{prefix}_{name}_rmses.csv', index=False)
     return preds_h0, preds_h1, preds_h2, preds_h3, rmses_df
 
 # topics only

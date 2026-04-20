@@ -2,8 +2,8 @@
 set -e
 
 CONDA_BIN="$HOME/miniconda3/bin/conda"
-ENV_NAME="py38-main"
-ENV_FILE="environment-py38.yml"
+ENV_NAME="py311"
+ENV_FILE="environment-py311.yml"
 PYTHON_SCRIPT="scripts/04_forecasting/sarimax.py"
 
 if ! "$CONDA_BIN" run -n "$ENV_NAME" python -c "import sys" >/dev/null 2>&1; then

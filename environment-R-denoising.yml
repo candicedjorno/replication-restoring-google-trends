@@ -1,0 +1,8 @@
+name: Renv_denoising
+channels:
+  - conda-forge
+dependencies:
+  - r-base=4.3
+  - r-rssa
+  - r-xts=0.14.0
+  - r-wavelets

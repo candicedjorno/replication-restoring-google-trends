@@ -4,7 +4,7 @@ set -e
 CONDA_BIN="$HOME/miniconda3/bin/conda"
 ENV_NAME="py38-main"
 ENV_FILE="environment-py38.yml"
-PYTHON_SCRIPT="scripts/03_detrending/detrend_gt.py"
+PYTHON_SCRIPT="scripts/03_detrending/detrending.py"
 
 if ! "$CONDA_BIN" run -n "$ENV_NAME" python -c "import sys" >/dev/null 2>&1; then
 	"$CONDA_BIN" env create -f "$ENV_FILE"

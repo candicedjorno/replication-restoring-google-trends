@@ -14,7 +14,6 @@ method_names = ['noexog', 'indiv', 'topics', 'clusters', 'smooth', 'detrend']
 
 for data in method_names:
     argo = pd.read_csv(f"{save_dir}argo_{data}.csv")
-    # argo = pd.read_csv(f"{save_dir}argo2_{data}.csv")
     
     # Convert target_end_date to datetime for filtering
     argo['target_end_date'] = pd.to_datetime(argo['target_end_date'])
