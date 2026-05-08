@@ -150,6 +150,10 @@ All figures from the manuscript are included in this replication kit (`figures/`
 ### Execution Directory (Important)
 Run all scripts from the repository root unless a script explicitly states otherwise. Many scripts use relative paths such as `data/...` and `scripts/...`, which assume your current working directory is the project root.
 
+### Reproducibility Note
+
+Due to stochastic behavior, floating-point arithmetic, and numerical instability in parts of the analysis pipeline, reproduced figures and tables may show small numerical discrepancies relative to the manuscript results, even when using the provided environments and package versions. These differences do not affect the qualitative conclusions or comparative findings of the study.
+
 ### Hardware
 The experiments were run on a Linux-based HPC cluster. Parallel computing is used for denoising (R) and some forecasting scripts (R, Python). No GPU is required.
 
